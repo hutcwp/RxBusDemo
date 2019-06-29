@@ -6,10 +6,7 @@ import io.reactivex.functions.Consumer;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * @author huangfan(kael)
- * @time 2018/9/21 14:55
- */
+
 public abstract class EventProxy<T> implements EventBinder<T> {
 
     public final AtomicBoolean invoke = new AtomicBoolean(false);

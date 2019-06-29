@@ -6,10 +6,6 @@ import java.util.jar.JarOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
-/**
- * Created by huangfan on 2017/7/4.
- */
-
 class JarZipUtils {
 
     /**

@@ -17,10 +17,6 @@ import javax.tools.Diagnostic;
 import static javax.lang.model.element.Modifier.ABSTRACT;
 import static javax.lang.model.element.Modifier.PUBLIC;
 
-/**
- * @author huangfan(kael)
- * @time 2017/8/9 17:15
- */
 
 public class Utils {
 

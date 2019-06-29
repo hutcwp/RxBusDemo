@@ -1,8 +1,6 @@
 package com.hutcwp.api.event;
 
 /**
- * @author huangfan(kael)
- * @time 2017/9/22 10:43
  * RXBus事件绑定代理类接口类
  */
 

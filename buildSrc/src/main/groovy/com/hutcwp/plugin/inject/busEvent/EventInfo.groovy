@@ -6,11 +6,6 @@ import javassist.CtClass
 import javassist.CtMethod
 import org.gradle.api.Project
 
-/**
- * @author huangfan(kael)
- * @time 2017/8/27 22:35
- */
-
 class EventInfo extends SniperInfo{
 
     /**

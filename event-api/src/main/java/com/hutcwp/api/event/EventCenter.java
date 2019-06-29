@@ -3,11 +3,6 @@ package com.hutcwp.api.event;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * @author huangfan(kael)
- * @time 2017/9/22 11:37
- */
-
 class EventCenter {
 
     private static Map<String, Object> rxBusMap = new ConcurrentHashMap<>();

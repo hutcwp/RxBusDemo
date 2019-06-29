@@ -1,9 +1,5 @@
 package com.hutcwp.api.event;
 
-/**
- * @author huangfan(kael)
- * @time 2017/9/22 11:37
- */
 
 public class EventApi {
 

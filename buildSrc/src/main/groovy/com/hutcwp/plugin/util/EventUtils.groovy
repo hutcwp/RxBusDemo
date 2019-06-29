@@ -17,9 +17,6 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.regex.Pattern
 
-/**
- * Created by huangfan on 2017/7/4.
- */
 
 class EventUtils {
 
