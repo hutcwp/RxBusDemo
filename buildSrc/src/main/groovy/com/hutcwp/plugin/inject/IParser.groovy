@@ -1,10 +1,9 @@
 package com.hutcwp.plugin.inject
 
-import com.hutcwp.plugin.internal.SniperInfo
+
 import javassist.ClassPool
 import javassist.CtClass
 import org.gradle.api.Project
-
 
 /**
  * @author huangfan(kael)

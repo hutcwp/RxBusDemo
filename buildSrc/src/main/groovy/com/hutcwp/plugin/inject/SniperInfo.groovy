@@ -1,4 +1,4 @@
-package com.hutcwp.plugin.internal
+package com.hutcwp.plugin.inject
 
 import javassist.ClassPool
 import javassist.CtClass

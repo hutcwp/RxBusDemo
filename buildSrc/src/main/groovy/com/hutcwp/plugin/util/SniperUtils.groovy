@@ -1,6 +1,8 @@
 package com.hutcwp.plugin.util
 
 import com.android.build.api.transform.JarInput
+import com.hutcwp.plugin.inject.SniperConstant
+import javassist.ClassPath
 import javassist.ClassPool
 import javassist.CtField
 import javassist.CtMethod
@@ -21,6 +23,12 @@ import java.util.regex.Pattern
 
 class SniperUtils {
 
+
+    static ClassPath appendClassPath(String path) {
+        println 'appendClassPath path = ' + path
+        ClassPool.getDefault().appendClassPath(path)
+    }
+
     /**
      * 事先载入相关类
      * @param pool
@@ -38,6 +46,10 @@ class SniperUtils {
 
         //event api
         pool.importPackage("com.hutcwp.api.event.EventBinder")
+
+        pool.importPackage("com.hutcwp.rxbusdemo.rxbus")
+        ClassPool.getDefault().importPackage(SniperConstant.EVENT_COMPAT)
+
 
     }
 
@@ -68,13 +80,13 @@ class SniperUtils {
      * @param projectName
      * @return
      */
-    static String getProjectName(Project project){
+    static String getProjectName(Project project) {
         String regEx = '[A-Za-z0-9_]'
         Pattern pattern = Pattern.compile(regEx)
         StringBuffer name = new StringBuffer()
         char[] array = project.name.toCharArray()
-        for(int i = 0; i < array.length; i++){
-            if(pattern.matcher(array[i].toString())){
+        for (int i = 0; i < array.length; i++) {
+            if (pattern.matcher(array[i].toString())) {
                 name.append(array[i])
             }
         }
@@ -86,7 +98,7 @@ class SniperUtils {
      * @param project
      * @return
      */
-    static String getRxBusPluginName(Project applicationProject){
+    static String getRxBusPluginName(Project applicationProject) {
         StringBuffer className = new StringBuffer()
         className.append(getProjectName(applicationProject))
         className.append("_")
@@ -94,24 +106,24 @@ class SniperUtils {
         className.toString()
     }
 
-    static String getAptFile(Project project){
+    static String getAptFile(Project project) {
         "${project.buildDir}" + File.separator + "generated" + File.separator + "aptPlugin" + File.separator + "apt.text"
     }
 
-    static Set<String> getPluginClasses(Project project){
+    static Set<String> getPluginClasses(Project project) {
         Set<String> pluginSet = new HashSet<>()
-        try{
+        try {
             FileReader fr = new FileReader(getAptFile(project))
             BufferedReader br = new BufferedReader(fr)
             String line
-            while ((line = br.readLine())!=null) {
+            while ((line = br.readLine()) != null) {
                 String content = line.trim()
                 pluginSet.add(content)
-                project.logger.error "pluginSet plugin class------>" + content +"<------"
+                project.logger.error "pluginSet plugin class------>" + content + "<------"
             }
             br.close()
             fr.close()
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
         pluginSet
@@ -123,28 +135,28 @@ class SniperUtils {
      * @param isLibrary
      * @return
      */
-    static String getNameByMD5(JarInput jarInput, boolean isLibrary){
+    static String getNameByMD5(JarInput jarInput, boolean isLibrary) {
 //        def jarName = jarInput.name
 //        def md5Name = DigestUtils.md5Hex(jarInput.file.absolutePath)
         //第三方包格式  com.yy.android.yypushsdk:yypush:214.2.7::1 （1是表示这个aar包里面自带的jar包）
         def jarName
-        if(!isLibrary && jarInput.name.lastIndexOf(":") > 0){
-            if(jarInput.name.lastIndexOf("::") > 0){
+        if (!isLibrary && jarInput.name.lastIndexOf(":") > 0) {
+            if (jarInput.name.lastIndexOf("::") > 0) {
                 String jarIndex = jarInput.name.substring(jarInput.name.lastIndexOf("::") + 1)
                 String tmp = jarInput.name.substring(0, jarInput.name.lastIndexOf("::"))
                 jarName = tmp.substring(0, tmp.lastIndexOf(":")) + jarIndex
-            }else{
+            } else {
                 jarName = jarInput.name.substring(0, jarInput.name.lastIndexOf(":"))
             }
-        }else{
+        } else {
             jarName = jarInput.name
         }
         def md5Name = DigestUtils.md5Hex(jarName)
-        if(jarName.endsWith(".jar")) {
-            jarName = jarName.substring(0,jarName.length()-4)
+        if (jarName.endsWith(".jar")) {
+            jarName = jarName.substring(0, jarName.length() - 4)
         }
-        println "getNameByMD5---->newName>"+jarName+"------->oldName>"+jarInput.name+"---->absolutePath>"+jarInput.file.absolutePath+"--->jarName + '_' +md5Name>"+jarName + '_' +md5Name
-        jarName + '_' +md5Name
+        println "getNameByMD5---->newName>" + jarName + "------->oldName>" + jarInput.name + "---->absolutePath>" + jarInput.file.absolutePath + "--->jarName + '_' +md5Name>" + jarName + '_' + md5Name
+        jarName + '_' + md5Name
     }
 
     /**
@@ -152,7 +164,7 @@ class SniperUtils {
      * @param path
      * @return
      */
-    static String md5HexByFileContent(String path){
+    static String md5HexByFileContent(String path) {
         try {
             FileInputStream fis = new FileInputStream(path)
             MessageDigest digest = MessageDigest.getInstance("MD5")
@@ -163,8 +175,8 @@ class SniperUtils {
             }
             fis.close()
             BigInteger bigInt = new BigInteger(1, digest.digest())
-            return  bigInt.toString(16)
-        } catch (IOException | NoSuchAlgorithmException e){
+            return bigInt.toString(16)
+        } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace()
         }
         return ""
@@ -175,7 +187,7 @@ class SniperUtils {
      * @param project
      * @return
      */
-    static String getTmpDirRootPath(Project project){
+    static String getTmpDirRootPath(Project project) {
         project.buildDir.absolutePath + File.separator + "sniper"
     }
 
@@ -184,9 +196,9 @@ class SniperUtils {
      * @param project
      * @return
      */
-    static Project getRootProject(Project project){
+    static Project getRootProject(Project project) {
         Project parentProject, tmpProject = project
-        while(tmpProject != null){
+        while (tmpProject != null) {
             parentProject = tmpProject
             tmpProject = tmpProject.parent
         }
@@ -197,18 +209,18 @@ class SniperUtils {
      * 根据文件路径删除目录或者文件
      * @param path
      */
-    static void deleteFile(String path){
-        try{
+    static void deleteFile(String path) {
+        try {
             File file = new File(path)
-            if(file.exists()){
-                if(file.isDirectory()){
+            if (file.exists()) {
+                if (file.isDirectory()) {
                     FileUtils.deleteDirectory(file)
-                }else{
+                } else {
                     FileUtils.deleteQuietly(file)
                 }
             }
-        }catch(IOException e){
-            println "sniper plugin delete file " + path +" fail, ----->the reason is "+ e.message
+        } catch (IOException e) {
+            println "sniper plugin delete file " + path + " fail, ----->the reason is " + e.message
         }
     }
 
@@ -217,7 +229,7 @@ class SniperUtils {
      * @param method
      * @return
      */
-    static boolean existValidAnnotation(CtMethod method){
+    static boolean existValidAnnotation(CtMethod method) {
         method.getMethodInfo2().getAttribute(AnnotationsAttribute.invisibleTag) != null
     }
 
@@ -226,7 +238,7 @@ class SniperUtils {
      * @param field
      * @return
      */
-    static boolean existValidAnnotation(CtField field){
+    static boolean existValidAnnotation(CtField field) {
         field.getFieldInfo().getAttribute(AnnotationsAttribute.invisibleTag) != null
     }
 
@@ -238,11 +250,11 @@ class SniperUtils {
      * @param annotationMemberName annotation的成员名称
      * @return
      */
-    static <T> T getAnnotationValue(Class<T> annotationType, MethodInfo info, String annotationName, String annotationMemberName){
+    static <T> T getAnnotationValue(Class<T> annotationType, MethodInfo info, String annotationName, String annotationMemberName) {
         AnnotationsAttribute attribute = info.getAttribute(AnnotationsAttribute.invisibleTag)
-        if(attribute != null){
+        if (attribute != null) {
             Annotation annotation = attribute.getAnnotation(annotationName)
-            return (T)annotation.getMemberValue(annotationMemberName)
+            return (T) annotation.getMemberValue(annotationMemberName)
         }
     }
 
@@ -254,11 +266,11 @@ class SniperUtils {
      * @param annotationMemberName annotation的成员名称
      * @return
      */
-    static <T> T getAnnotationValue(Class<T> annotationType, FieldInfo info, String annotationName, String annotationMemberName){
+    static <T> T getAnnotationValue(Class<T> annotationType, FieldInfo info, String annotationName, String annotationMemberName) {
         AnnotationsAttribute attribute = info.getAttribute(AnnotationsAttribute.invisibleTag)
-        if(attribute != null){
+        if (attribute != null) {
             Annotation annotation = attribute.getAnnotation(annotationName)
-            return (T)annotation.getMemberValue(annotationMemberName)
+            return (T) annotation.getMemberValue(annotationMemberName)
         }
     }
 
@@ -267,14 +279,14 @@ class SniperUtils {
      * @param method
      * @return
      */
-    static String[] getMethodParamNames(CtMethod method){
+    static String[] getMethodParamNames(CtMethod method) {
         MethodInfo methodInfo = method.getMethodInfo()
         CodeAttribute codeAttribute = methodInfo.getCodeAttribute()
         LocalVariableAttribute attr = (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag)
-        if (attr == null)return []
+        if (attr == null) return []
         String[] paramNames = new String[method.getParameterTypes().length]
         int pos = Modifier.isStatic(method.getModifiers()) ? 0 : 1
-        for (int i = 0; i < paramNames.length; i++){
+        for (int i = 0; i < paramNames.length; i++) {
             paramNames[i] = attr.variableName(i + pos)
         }
         paramNames

@@ -1,6 +1,6 @@
 package com.hutcwp.plugin.inject.busEvent
 
-import com.hutcwp.plugin.internal.SniperInfo
+import com.hutcwp.plugin.inject.SniperInfo
 import javassist.ClassPool
 import javassist.CtClass
 import javassist.CtMethod
@@ -64,5 +64,20 @@ class EventInfo extends SniperInfo{
 
     EventInfo(SniperInfo sniperInfo){
         super(sniperInfo)
+    }
+
+    @Override
+    public String toString() {
+        return "EventInfo{" +
+                "busEventMethods=" + busEventMethods +
+                ", onAttachedToWindow=" + onAttachedToWindow +
+                ", onDetachedFromWindow=" + onDetachedFromWindow +
+                ", onCreate=" + onCreate +
+                ", onDestroy=" + onDestroy +
+                ", onViewCreated=" + onViewCreated +
+                ", onDestroyView=" + onDestroyView +
+                ", onEventBind=" + onEventBind +
+                ", onEventUnBind=" + onEventUnBind +
+                '}';
     }
 }
