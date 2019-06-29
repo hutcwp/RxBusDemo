@@ -8,10 +8,6 @@ class InjectCodeDef {
 
     /* annotation */
     static final String BusEventAnnotation = "com.hutcwp.annotation.BusEvent"
-    static final String DartsRegisterAnnotation = "com.yy.android.sniper.annotation.sneak.DartsRegister"
-    static final String DartsHitAnnotation = "com.yy.android.sniper.annotation.sneak.DartsHit"
-    static final String DartsInitializeAnnotation = "com.yy.android.sniper.annotation.sneak.DartsInitialize"
-
 
     static final String METHOD_TAIL = "%s\n" + "}\n"
 
@@ -48,12 +44,4 @@ class InjectCodeDef {
 
     public static final String SUPER_ONEVENTUNBIND = "super.onEventUnBind();\n"
 
-    /* StatisticsInjector lurk click方法*/
-    public static final String METHOD_LURK_CLICK = "com.yy.android.sniper.api.lurk.LurkApi.get().callOnClick(%s);\n"
-
-    public static final String METHOD_LURK_LIST_CLICK = "com.yy.android.sniper.api.lurk.LurkApi.get().callOnItemClick(%s, %s, %s);\n"
-
-    public static final String METHOD_LURK_FRAGMENT_CREATE = "com.yy.android.sniper.api.lurk.LurkApi.get().callFragmentCreate(%s, %s, getClass().getSimpleName());\n"
-
-    public static final String METHOD_LURK_FRAGMENT_DESTROY = "com.yy.android.sniper.api.lurk.LurkApi.get().callFragmentDestroy(getClass().getSimpleName());\n"
 }

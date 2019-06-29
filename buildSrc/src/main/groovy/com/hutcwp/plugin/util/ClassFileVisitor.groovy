@@ -47,18 +47,10 @@ class ClassFileVisitor extends SimpleFileVisitor<Path> {
                 println ' ------------->isMyPackage ' + className
                 SniperInject.injectClass(filePath, baseDir, className, isJar, {
                     String classPath, String classDirectory, String clazzName, ClassPool pool ->
-                        Injectors.INSTANCE.inject(project, pool, classPath, classDirectory)
+                        return Injectors.INSTANCE.inject(project, pool, classPath, classDirectory)
                 })
             }
         }
         return super.visitFile(file, attrs)
-    }
-
-    private static CtClass safeGetClass(String clazzName) {
-        try {
-            return ClassPool.getDefault().getCtClass(clazzName)
-        } catch (Exception e) {
-            return null
-        }
     }
 }

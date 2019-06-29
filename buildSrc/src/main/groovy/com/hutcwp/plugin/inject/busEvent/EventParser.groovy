@@ -13,11 +13,6 @@ import com.hutcwp.plugin.util.*
 
 import java.lang.annotation.Annotation
 
-/**
- * @author huangfan(kael)
- * @time 2017/12/21 16:07
- */
-
 class EventParser extends BaseParser {
 
     @Override
@@ -69,7 +64,7 @@ class EventParser extends BaseParser {
             if (EventUtils.existValidAnnotation(method)) {
                 method.getAnnotations().each { Annotation annotation ->
                     if (annotation.annotationType().name.equalsIgnoreCase(InjectCodeDef.busEventAnnotation)) {
-                        println " method:" + method + " -" + annotation.metaPropertyValues.get(0)
+                        println " method:" + method + " annotation -" + annotation.metaPropertyValues.get(0)
                         eventInfo.getBusEventMethods().add(method)
                     }
                 }

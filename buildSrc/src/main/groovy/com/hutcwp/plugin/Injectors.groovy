@@ -6,7 +6,7 @@ import javassist.ClassPool
 import org.gradle.api.Project
 
 /**
- * 存储所有injector的枚举
+ * 代码注入
  */
 enum Injectors {
 
@@ -14,8 +14,6 @@ enum Injectors {
 
     EventInjector injector = new EventInjector()
     EventParser parser = new EventParser()
-
-
 
     boolean inject(Project project, ClassPool pool, String classPath, String classDirectory) {
         boolean inject = false

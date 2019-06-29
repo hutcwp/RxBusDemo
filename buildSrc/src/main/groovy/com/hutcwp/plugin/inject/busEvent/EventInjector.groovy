@@ -4,10 +4,8 @@ import com.hutcwp.plugin.inject.IClassInjector
 import com.hutcwp.plugin.inject.InjectCodeDef
 import com.hutcwp.plugin.inject.SniperConstant
 import com.hutcwp.plugin.inject.SniperInfo
-import com.hutcwp.plugin.inject.busEvent.EventExprEditor
-import com.hutcwp.plugin.inject.busEvent.EventInfo
-
 import javassist.*
+import com.hutcwp.plugin.util.LogUtil
 
 import java.lang.annotation.Annotation
 
@@ -40,13 +38,6 @@ class EventInjector implements IClassInjector {
     boolean processRxBus(EventInfo info) {
         println('process rx bus... siez = ' + info.busEventMethods?.size())
         if (info.busEventMethods?.size() > 0) {
-//            info.project.logger.error ">>>>>>>>>>>>>>>>>>>processRxBus className: -" + info.clazz.simpleName +" SuperclassName:  - " + info.clazz.getSuperclass().getName()
-//            info.project.logger.error "is fragment : " + info.isFragment() + "###is activity : " +info.isActivity() +
-//                    "### is view : " + info.isView() + "### is EventCompat : " + info.isEventCompat()
-//            info.clazz.getInterfaces().each {CtClass ii ->
-//                println "interface name----------------------->" + ii.name
-//            }
-
             injectEventField(info.clazz)
             //插入EventBinder事件代理类订阅和取消订阅代码
             injectEventBinder(info)
@@ -74,7 +65,7 @@ class EventInjector implements IClassInjector {
      * @param info
      */
     void injectEventBinder(EventInfo info) {
-        println('injectEventBinder info')
+        LogUtil.info('injectEventBinder info')
         switch (true) {
             case info.isView():
                 injectViewEventBinder(info)
