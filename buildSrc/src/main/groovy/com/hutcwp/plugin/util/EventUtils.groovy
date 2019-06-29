@@ -21,7 +21,7 @@ import java.util.regex.Pattern
  * Created by huangfan on 2017/7/4.
  */
 
-class SniperUtils {
+class EventUtils {
 
 
     static ClassPath appendClassPath(String path) {
@@ -34,9 +34,9 @@ class SniperUtils {
      * @param pool
      */
     static void importBaseClass(ClassPool pool) {
-        pool.importPackage("java.util.ArrayList");
-        pool.importPackage("android.view.View");
-        pool.importPackage("android.os.Bundle");
+        pool.importPackage("java.util.ArrayList")
+        pool.importPackage("android.view.View")
+        pool.importPackage("android.os.Bundle")
 
         //rxjava
         pool.importPackage("io.reactivex.disposables.Disposable")
@@ -48,7 +48,8 @@ class SniperUtils {
         pool.importPackage("com.hutcwp.api.event.EventBinder")
 
         pool.importPackage("com.hutcwp.rxbusdemo.rxbus")
-        ClassPool.getDefault().importPackage(SniperConstant.EVENT_COMPAT)
+
+        pool.importPackage(SniperConstant.EVENT_COMPAT)
 
 
     }

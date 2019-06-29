@@ -1,14 +1,8 @@
 package com.hutcwp.plugin.inject
 
-
 import javassist.ClassPool
 import javassist.CtClass
 import org.gradle.api.Project
-
-/**
- * @author huangfan(kael)
- * @time 2017/8/27 22:35
- */
 
 interface IParser {
 

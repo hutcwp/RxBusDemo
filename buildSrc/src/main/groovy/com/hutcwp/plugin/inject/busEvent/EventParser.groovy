@@ -1,5 +1,8 @@
-package com.hutcwp.plugin.inject
+package com.hutcwp.plugin.inject.busEvent
 
+import com.hutcwp.plugin.inject.BaseParser
+import com.hutcwp.plugin.inject.InjectCodeDef
+import com.hutcwp.plugin.inject.SniperInfo
 import com.hutcwp.plugin.inject.busEvent.EventInfo
 
 import javassist.ClassPool
@@ -7,7 +10,6 @@ import javassist.CtClass
 import javassist.CtMethod
 import org.gradle.api.Project
 import com.hutcwp.plugin.util.*
-import com.hutcwp.plugin.inject.*
 
 import java.lang.annotation.Annotation
 
@@ -34,7 +36,7 @@ class EventParser extends BaseParser {
     private void findBusEventMethod(EventInfo eventInfo) {
         println "---------------> findBusEventMethod start"
         eventInfo.clazz.getDeclaredMethods().each { CtMethod method ->
-            String methodName = SniperUtils.getSimpleName(method)
+            String methodName = EventUtils.getSimpleName(method)
             println('method name ' + methodName)
             switch (methodName) {
                 case OnEventBind:
@@ -64,7 +66,7 @@ class EventParser extends BaseParser {
                     if (eventInfo.isFragment() && method.getParameterTypes().size() == 0) eventInfo.setOnDestroyView(method)
                     break
             }
-            if (SniperUtils.existValidAnnotation(method)) {
+            if (EventUtils.existValidAnnotation(method)) {
                 method.getAnnotations().each { Annotation annotation ->
                     if (annotation.annotationType().name.equalsIgnoreCase(InjectCodeDef.busEventAnnotation)) {
                         println " method:" + method + " -" + annotation.metaPropertyValues.get(0)

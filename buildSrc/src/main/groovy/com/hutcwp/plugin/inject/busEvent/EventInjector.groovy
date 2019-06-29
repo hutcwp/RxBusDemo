@@ -1,5 +1,9 @@
-package com.hutcwp.plugin.inject
+package com.hutcwp.plugin.inject.busEvent
 
+import com.hutcwp.plugin.inject.IClassInjector
+import com.hutcwp.plugin.inject.InjectCodeDef
+import com.hutcwp.plugin.inject.SniperConstant
+import com.hutcwp.plugin.inject.SniperInfo
 import com.hutcwp.plugin.inject.busEvent.EventExprEditor
 import com.hutcwp.plugin.inject.busEvent.EventInfo
 
@@ -152,6 +156,7 @@ class EventInjector implements IClassInjector {
      * @param info
      */
     void injectEventCompatEventBinder(EventInfo info) {
+        println('injectEventCompatEventBinder')
         EventExprEditor exprEditor
         if (info.onEventBind != null) {
             exprEditor = new EventExprEditor()
@@ -186,6 +191,7 @@ class EventInjector implements IClassInjector {
      * @param info
      */
     void injectOtherEventBinder(EventInfo info) {
+        println('injectOtherEventBinder')
         if (checkHasDartsAnnotation(info)) {
             CtConstructor[] array = info.clazz.getDeclaredConstructors()
             if (array.length > 0) {

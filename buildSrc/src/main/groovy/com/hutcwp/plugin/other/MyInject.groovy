@@ -1,4 +1,4 @@
-package com.hutcwp.plugin
+package com.hutcwp.plugin.other
 
 import javassist.ClassPool
 import javassist.CtClass

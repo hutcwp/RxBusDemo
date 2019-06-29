@@ -1,0 +1,7 @@
+/** sniper插件信息配置  **/
+ext {
+
+    /** sniper插件不去进行处理的library目录名称 **/
+    sniperIgnoredProjects = ["sniper-annotation", "sniper-api", "sniper-compiler"]
+
+}

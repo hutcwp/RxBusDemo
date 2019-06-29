@@ -1,5 +1,6 @@
 package com.hutcwp.rxbusdemo.rxbus;
 
+import android.util.Log;
 import com.hutcwp.annotation.BusEvent;
 import com.hutcwp.api.event.EventCompat;
 
@@ -10,9 +11,14 @@ import com.hutcwp.api.event.EventCompat;
  **/
 public class Presenter implements EventCompat {
 
+    public Presenter() {
+        onEventBind();
+    }
+
     @BusEvent()
-    public void onEventString(String event) {
+    public void onEventString(SelfEvent event) {
         //placeholder
+        Log.i("Presenter", "presenter,event");
     }
 
     @Override
@@ -24,4 +30,6 @@ public class Presenter implements EventCompat {
     public void onEventUnBind() {
 
     }
+
+
 }

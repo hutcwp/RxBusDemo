@@ -2,8 +2,6 @@ package com.hutcwp.plugin.inject
 
 /**
  * 需要注入的固定code的定义类
- * @author huangfan(kael)
- * @time 2017/12/21 19:51
  */
 
 class InjectCodeDef {

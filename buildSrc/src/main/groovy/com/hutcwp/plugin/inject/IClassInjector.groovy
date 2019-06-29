@@ -1,8 +1,5 @@
 package com.hutcwp.plugin.inject
-/**
- * @author huangfan(kael)
- * @time 2017/8/27 22:35
- */
+
 
 interface IClassInjector {
 

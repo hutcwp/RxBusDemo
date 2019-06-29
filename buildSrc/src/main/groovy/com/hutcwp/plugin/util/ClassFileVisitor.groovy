@@ -1,5 +1,6 @@
 package com.hutcwp.plugin.util
 
+import com.hutcwp.plugin.SniperInject
 import com.hutcwp.plugin.Injectors
 import javassist.ClassPool
 import javassist.CtClass
@@ -9,10 +10,6 @@ import java.nio.file.Path
 import java.nio.file.SimpleFileVisitor
 import java.nio.file.attribute.BasicFileAttributes
 
-/**
- * @author huangfan ( kael )
- * @time 2017/11/15 11:15
- */
 class ClassFileVisitor extends SimpleFileVisitor<Path> {
 
     def packageName
@@ -37,27 +34,25 @@ class ClassFileVisitor extends SimpleFileVisitor<Path> {
     @Override
     FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         String filePath = file.toString()
+        //  过滤掉无用的项
         boolean miscCheck = filePath.endsWith(".class") && !filePath.contains('R$') && !filePath.contains('$$') &&
                 !filePath.contains('R.class') && !filePath.contains("BuildConfig.class") &&
                 !filePath.contains('androidTest') && !filePath.contains("Manifest.class")
         if (miscCheck) {
+            println ' -------------> filePath = ' +filePath
             int index = filePath.indexOf(packageName)
             boolean isMyPackage = index != -1
             if (isMyPackage) {
-                String className = SniperUtils.getClassName(index + 1, filePath)
-                println ' -------------> ' + className
-
-                Injectors.injectClass(filePath, baseDir, className, isJar, {
+                String className = EventUtils.getClassName(index + 1, filePath)
+                println ' ------------->isMyPackage ' + className
+                SniperInject.injectClass(filePath, baseDir, className, isJar, {
                     String classPath, String classDirectory, String clazzName, ClassPool pool ->
-
-                        println 'injectClass'
                         Injectors.INSTANCE.inject(project, pool, classPath, classDirectory)
                 })
             }
         }
         return super.visitFile(file, attrs)
     }
-
 
     private static CtClass safeGetClass(String clazzName) {
         try {

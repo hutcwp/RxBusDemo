@@ -1,4 +1,4 @@
-package com.hutcwp.plugin
+package com.hutcwp.plugin.other
 
 import com.android.build.api.transform.Context
 import com.android.build.api.transform.DirectoryInput

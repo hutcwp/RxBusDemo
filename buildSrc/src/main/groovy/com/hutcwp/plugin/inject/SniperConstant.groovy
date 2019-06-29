@@ -1,9 +1,5 @@
 package com.hutcwp.plugin.inject
 
-/**
- * Created by huangfan on 2017/11/3.
- */
-
 class SniperConstant {
 
     /** 定义在rootProject的配置信息，例如

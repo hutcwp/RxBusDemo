@@ -5,7 +5,6 @@ import javassist.CtClass
 import org.gradle.api.Project
 
 /**
- * Created by huangfan on 2017/7/4.
  * @BusEvent 注解 处理 数据类
  */
 

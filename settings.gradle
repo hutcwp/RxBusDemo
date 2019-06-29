@@ -1,1 +1,1 @@
-include ':app', ':event-api', ':annotation', ':compiler', ':buildSrc'
+include ':app', ':event-api', ':event-annotation', ':event-compiler', ':buildSrc'
