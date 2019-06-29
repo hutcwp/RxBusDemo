@@ -109,7 +109,7 @@ class EventInjector implements IClassInjector {
      * @param info
      */
     void injectActivityEventBinder(EventInfo info) {
-        println('injectActivityEventBinder')
+        println('injectActivityEventBinder ' )
         if (info.onCreate != null) {
             info.onCreate.insertAfter(Body_RxBusRegister)
         } else {
