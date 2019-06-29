@@ -9,10 +9,7 @@ import com.hutcwp.plugin.util.LogUtil
 
 import java.lang.annotation.Annotation
 
-/**
- * @author huangfan(kael)
- * @time 2017/9/22  17:43
- */
+
 class EventInjector implements IClassInjector {
 
     private def Body_RxBusUnRegister
