@@ -9,6 +9,10 @@ import com.hutcwp.plugin.util.LogUtil
 
 import java.lang.annotation.Annotation
 
+/**
+ * @author huangfan(kael)
+ * @time 2017/9/22  17:43
+ */
 class EventInjector implements IClassInjector {
 
     private def Body_RxBusUnRegister
@@ -85,6 +89,7 @@ class EventInjector implements IClassInjector {
      * @param info
      */
     void injectViewEventBinder(EventInfo info) {
+        LogUtil.info('injectViewEventBinder')
         if (info.onAttachedToWindow != null) {
             info.onAttachedToWindow.insertAfter(Body_RxBusRegister)
         } else {
@@ -124,6 +129,7 @@ class EventInjector implements IClassInjector {
      * @param info
      */
     void injectFragmentEventBinder(EventInfo info) {
+        LogUtil.info('injectFragmentEventBinder')
         if (info.onViewCreated != null) {
             info.onViewCreated.insertBefore(Body_RxBusRegister)
         } else {

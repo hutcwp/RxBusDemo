@@ -13,13 +13,7 @@ import com.hutcwp.rxbusdemo.rxbus.Presenter
 import com.hutcwp.rxbusdemo.rxbus.SelfEvent
 
 class MainActivity : AppCompatActivity() {
-    //    override fun onEventBind() {
-//
-//    }
-//
-//    override fun onEventUnBind() {
-//
-//    }
+
     val presenter: Presenter = Presenter()
 
     @SuppressLint("CheckResult")
@@ -34,11 +28,11 @@ class MainActivity : AppCompatActivity() {
 //        onEventUnBind()
     }
 
-//    @BusEvent
-//    fun onStringEvent(event: String) {
-//        Toast.makeText(this, "onStringEvent", Toast.LENGTH_LONG).show()
-//        Log.i("MainActivity", "onStringEvent")
-//    }
+    @BusEvent
+    fun onStringEvent(event: SelfEvent) {
+        Toast.makeText(this, "onStringEvent", Toast.LENGTH_LONG).show()
+        Log.i("MainActivity", "onStringEvent")
+    }
 
     fun clickView(v: View) {
         Log.i("MainActivity", "clickView")
