@@ -21,7 +21,7 @@ class EventInjector implements IClassInjector {
      * @param sniperInfo
      */
     boolean inject(SniperInfo sniperInfo) {
-        println('inject sniperInfo ' + sniperInfo)
+        println('try inject sniperInfo ' + sniperInfo)
         if (sniperInfo instanceof EventInfo) {
             return processRxBus((EventInfo) sniperInfo)
         }
@@ -33,7 +33,7 @@ class EventInjector implements IClassInjector {
      * @param info
      */
     boolean processRxBus(EventInfo info) {
-        println('process rx bus... siez = ' + info.busEventMethods?.size())
+        println('process rx bus... busEvent method size = ' + info.busEventMethods?.size())
         if (info.busEventMethods?.size() > 0) {
             injectEventField(info.clazz)
             //插入EventBinder事件代理类订阅和取消订阅代码
@@ -48,7 +48,7 @@ class EventInjector implements IClassInjector {
      * @param ctClass
      */
     void injectEventField(CtClass ctClass) {
-        println("injectEventField")
+        LogUtil.info("injectEventField")
         def Field_EventBinder = String.format("m%sSniperEventBinder", ctClass.simpleName)
         ctClass.addField(CtField.make("private EventBinder " + Field_EventBinder + ";", ctClass))
 
@@ -106,7 +106,7 @@ class EventInjector implements IClassInjector {
      * @param info
      */
     void injectActivityEventBinder(EventInfo info) {
-        println('injectActivityEventBinder ' )
+        println('injectActivityEventBinder ')
         if (info.onCreate != null) {
             info.onCreate.insertAfter(Body_RxBusRegister)
         } else {

@@ -5,7 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.2'
@@ -25,7 +25,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+
     }
 }
 
@@ -33,4 +33,4 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-apply from :'event.gradle'
+apply from: 'event.gradle'

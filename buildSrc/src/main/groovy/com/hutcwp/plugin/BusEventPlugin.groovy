@@ -2,7 +2,6 @@ package com.hutcwp.plugin
 
 import com.android.build.gradle.AppPlugin
 import com.hutcwp.plugin.extension.EventConfigExtension
-import com.hutcwp.plugin.other.MyTransform
 import com.hutcwp.plugin.util.AptUtils
 import com.hutcwp.plugin.util.LogUtil
 import org.gradle.api.Plugin
@@ -31,7 +30,7 @@ class BusEventPlugin implements Plugin<Project> {
                 }
             }
             LogUtil.info("======start=====")
-            rootProject.android.registerTransform(new BusEventTransform(rootProject))
+            rootProject.android.registerTransform(new BusEventTransform(rootProject, eventConfigExtension))
 //            rootProject.android.registerTransform(new MyTransform(rootProject))
             LogUtil.info("======end=====")
         }

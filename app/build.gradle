@@ -60,5 +60,6 @@ dependencies {
     compile project(path: ':event-annotation')
     compile project(path: ':event-api')
     kapt project(':event-compiler')
+    compile project(path: ':luck')
 
 }

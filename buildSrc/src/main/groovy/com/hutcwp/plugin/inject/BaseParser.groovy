@@ -35,7 +35,7 @@ class BaseParser implements IParser {
      * @return
      */
     private void analysisClassType(SniperInfo sniperInfo) {
-        println sniperInfo.clazz.name+"--------------->  analysisClassType start"
+//        println sniperInfo.clazz.name+"--------------->  analysisClassType start"
         try {
             if (sniperInfo.clazz.subtypeOf(ClassPool.getDefault().get(SniperConstant.EVENT_COMPAT))) {
                 sniperInfo.setEventCompat(true)

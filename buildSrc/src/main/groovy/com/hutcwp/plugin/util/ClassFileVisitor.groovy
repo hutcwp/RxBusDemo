@@ -39,13 +39,13 @@ class ClassFileVisitor extends SimpleFileVisitor<Path> {
                 !filePath.contains('R.class') && !filePath.contains("BuildConfig.class") &&
                 !filePath.contains('androidTest') && !filePath.contains("Manifest.class")
         if (miscCheck) {
-            println ' -------------> filePath = ' +filePath
+            println ' ------------->visitFile filePath = ' +filePath
             int index = filePath.indexOf(packageName)
             boolean isMyPackage = index != -1
             if (isMyPackage) {
                 String className = EventUtils.getClassName(index + 1, filePath)
-                println ' ------------->isMyPackage ' + className
-                SniperInject.injectClass(filePath, baseDir, className, isJar, {
+//                println ' ------------->isMyPackage ' + className
+                needInject = SniperInject.injectClass(filePath, baseDir, className, isJar, {
                     String classPath, String classDirectory, String clazzName, ClassPool pool ->
                         return Injectors.INSTANCE.inject(project, pool, classPath, classDirectory)
                 })

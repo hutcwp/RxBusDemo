@@ -2,6 +2,6 @@
 ext {
 
     /** sniper插件不去进行处理的library目录名称 **/
-    sniperIgnoredProjects = ["sniper-annotation", "sniper-api", "sniper-compiler"]
+    sniperIgnoredProjects = ["event-annotation", "event-api", "event-compiler"]
 
 }

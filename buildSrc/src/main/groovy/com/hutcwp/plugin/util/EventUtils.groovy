@@ -22,7 +22,7 @@ class EventUtils {
 
 
     static ClassPath appendClassPath(String path) {
-        println 'appendClassPath path = ' + path
+//        println 'appendClassPath path = ' + path
         ClassPool.getDefault().appendClassPath(path)
     }
 

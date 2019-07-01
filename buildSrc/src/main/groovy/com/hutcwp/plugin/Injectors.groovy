@@ -25,7 +25,7 @@ enum Injectors {
             ctClass.defrost()
         }
         if (injector.inject(parser.parse(project, pool, ctClass))) {
-            println 'ctClass writeFile,ctClass=' + ctClass.name
+            println 'writeFile,ctClass=' + ctClass.name
             ctClass.writeFile(classDirectory)
             ctClass.defrost()
             inject = true

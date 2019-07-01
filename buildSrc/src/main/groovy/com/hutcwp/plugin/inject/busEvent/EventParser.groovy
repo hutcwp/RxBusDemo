@@ -29,10 +29,10 @@ class EventParser extends BaseParser {
      * @param mInfo
      */
     private void findBusEventMethod(EventInfo eventInfo) {
-        println "---------------> findBusEventMethod start"
+//        println "---------------> findBusEventMethod start"
         eventInfo.clazz.getDeclaredMethods().each { CtMethod method ->
             String methodName = EventUtils.getSimpleName(method)
-            println('method name ' + methodName)
+//            println('method name ' + methodName)
             switch (methodName) {
                 case OnEventBind:
                     if (eventInfo.isEventCompat() && method.getParameterTypes().size() == 0) eventInfo.setOnEventBind(method)
@@ -64,12 +64,12 @@ class EventParser extends BaseParser {
             if (EventUtils.existValidAnnotation(method)) {
                 method.getAnnotations().each { Annotation annotation ->
                     if (annotation.annotationType().name.equalsIgnoreCase(InjectCodeDef.busEventAnnotation)) {
-                        println " method:" + method + " annotation -" + annotation.metaPropertyValues.get(0)
+//                        println " method:" + method + " annotation -" + annotation.metaPropertyValues.get(0)
                         eventInfo.getBusEventMethods().add(method)
                     }
                 }
             }
         }
-        println "---------------> findBusEventMethod end"
+//        println "---------------> findBusEventMethod end"
     }
 }

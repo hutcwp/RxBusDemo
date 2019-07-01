@@ -1,5 +1,6 @@
 package com.hutcwp.plugin
 
+import com.android.annotations.NonNull
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.google.common.collect.Sets
@@ -15,9 +16,11 @@ class BusEventTransform extends Transform {
 
     Project project
     String packName
+    EventConfigExtension eventConfigExtension
 
-    BusEventTransform(Project project) {
+    BusEventTransform(Project project, EventConfigExtension config) {
         this.project = project
+        this.eventConfigExtension = config
         packName = File.separator + "com" + File.separator
         println 'packageName is ' + packName
     }
@@ -31,13 +34,12 @@ class BusEventTransform extends Transform {
         try {
             doTransform(context, inputs, referencedInputs, outputProvider, isIncremental, classPathList)
         } catch (Exception e) {
-            LogUtil.error('transform exception is ' + e)
+            project.logger.error('transform exception is ' + e)
         } finally {
             LogUtil.info("transform finally delete file")
             classPathList.each { ClassPool.getDefault().removeClassPath(it) }
             classPathList.clear()
             ClassPool.getDefault().clearImportedPackages()
-
             EventUtils.deleteFile(EventUtils.getTmpDirRootPath(project))
             EventUtils.deleteFile(EventUtils.getAptFile(project))
         }
@@ -53,26 +55,30 @@ class BusEventTransform extends Transform {
 
         EventUtils.importBaseClass(ClassPool.getDefault())
         classPathList.add(EventUtils.appendClassPath(project.android.bootClasspath[0].toString()))
+        LogUtil.info("eventConfigExtension." + eventConfigExtension.sniperIgnoredProjects)
 
         inputs.each { TransformInput input ->
             if (input.jarInputs.size() > 0) {
                 input.jarInputs.each { JarInput jarInput ->
-                    println 'find jar, name---->' + jarInput.name + "----absolutePath---->" + jarInput.file.absolutePath
+//                    println 'find subProject, name---->' + jarInput.name + "-----absolutePath---->" + jarInput.file.absolutePath
                     boolean needInject = false
                     String jarPath = jarInput.file.absolutePath
                     File copyFile = jarInput.file
-
-                    println 'append jar'
                     classPathList.add(EventUtils.appendClassPath(jarPath))
-                    boolean isForSniper = needInjectFile()
+                    boolean isForSniper = isSubProject(jarInput) && !isIgnoredProject(jarPath, jarInput.name, eventConfigExtension)
+//                    LogUtil.info("isSubProject:" + isSubProject(jarInput))
                     if (isForSniper) {
-                        println 'find subProject, name---->' + jarInput.name + "-----absolutePath---->" + jarInput.file.absolutePath
                         libJar.add(jarInput)
+                        needInject = true
+                    } else {
+                        LogUtil.info("do not inject project --->" + jarInput.name)
                     }
 
-                    def output = outputProvider.getContentLocation(jarInput.name, jarInput.contentTypes, jarInput.scopes, Format.JAR)
-                    EventUtils.deleteFile(output.path)
-                    FileUtils.copyFile(copyFile, output)
+                    if (!needInject) {
+                        def output = outputProvider.getContentLocation(jarInput.name, jarInput.contentTypes, jarInput.scopes, Format.JAR)
+                        EventUtils.deleteFile(output.path)
+                        FileUtils.copyFile(copyFile, output)
+                    }
                 }
             }
             if (input.directoryInputs.size() > 0) {
@@ -80,20 +86,26 @@ class BusEventTransform extends Transform {
             }
         }
 
+        libJar.each { JarInput jarInput ->
+            project.logger.error(">>>>>>>>>>>SniperTransform inject jar's path :" + jarInput.file.absolutePath + "<<<<<<<<<<<")
+            File copyFile = SniperInject.injectJar(jarInput.file.absolutePath, packName, project, null)
+            def output = outputProvider.getContentLocation(jarInput.name, jarInput.contentTypes, jarInput.scopes, Format.JAR)
+            FileUtils.copyFile(copyFile, output)
+            if (!copyFile.absolutePath.equalsIgnoreCase(jarInput.file.absolutePath)) {
+                EventUtils.deleteFile(copyFile.absolutePath)
+            }
+        }
+
         directoryInputs.each { DirectoryInput directoryInput ->
-            project.logger.error(">>>>>>>>>>>SniperTransform inject directory's path :" + directoryInput.file.absolutePath + "<<<<<<<<<<<")
+            project.logger.error(">>>>>>>>>>>SniperTransform inject directory's path :" + directoryInput.file.path + "<<<<<<<<<<<")
             classPathList.add(EventUtils.appendClassPath(directoryInput.file.path))
             def dest = outputProvider.getContentLocation(directoryInput.name,
                     directoryInput.contentTypes, directoryInput.scopes,
                     Format.DIRECTORY)
-            FileUtils.deleteDirectory(dest)
+//            FileUtils.deleteDirectory(dest)
             FileUtils.copyDirectory(directoryInput.file, dest)
             SniperInject.injectDir(directoryInput.file.absolutePath, dest.absolutePath, packName, project, false, null)
         }
-    }
-
-    boolean needInjectFile() {
-        return true
     }
 
     @Override
@@ -116,7 +128,11 @@ class BusEventTransform extends Transform {
         return false
     }
 
-    boolean isIgnoredProject(String jarPath, String jarName, EventConfigExtension config) {
+    static boolean isSubProject(@NonNull QualifiedContent content) {
+        content.getScopes() == Collections.singleton(QualifiedContent.Scope.SUB_PROJECTS)
+    }
+
+    static boolean isIgnoredProject(String jarPath, String jarName, EventConfigExtension config) {
         config.sniperIgnoredProjects.find { jarPath.contains(it) || jarName.contains(it) }
     }
 }
