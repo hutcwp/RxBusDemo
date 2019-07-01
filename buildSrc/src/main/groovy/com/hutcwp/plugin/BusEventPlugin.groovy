@@ -2,6 +2,7 @@ package com.hutcwp.plugin
 
 import com.android.build.gradle.AppPlugin
 import com.hutcwp.plugin.extension.EventConfigExtension
+import com.hutcwp.plugin.other.MyTransform
 import com.hutcwp.plugin.util.AptUtils
 import com.hutcwp.plugin.util.LogUtil
 import org.gradle.api.Plugin

@@ -71,8 +71,8 @@ class BusEventTransform extends Transform {
                     }
 
                     def output = outputProvider.getContentLocation(jarInput.name, jarInput.contentTypes, jarInput.scopes, Format.JAR)
+                    EventUtils.deleteFile(output.path)
                     FileUtils.copyFile(copyFile, output)
-                    EventUtils.deleteFile(copyFile.absolutePath)
                 }
             }
             if (input.directoryInputs.size() > 0) {

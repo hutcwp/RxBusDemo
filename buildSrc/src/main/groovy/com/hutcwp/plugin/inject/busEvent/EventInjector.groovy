@@ -9,10 +9,7 @@ import com.hutcwp.plugin.util.LogUtil
 
 import java.lang.annotation.Annotation
 
-/**
- * @author huangfan(kael)
- * @time 2017/9/22  17:43
- */
+
 class EventInjector implements IClassInjector {
 
     private def Body_RxBusUnRegister
@@ -109,7 +106,7 @@ class EventInjector implements IClassInjector {
      * @param info
      */
     void injectActivityEventBinder(EventInfo info) {
-        println('injectActivityEventBinder')
+        println('injectActivityEventBinder ' )
         if (info.onCreate != null) {
             info.onCreate.insertAfter(Body_RxBusRegister)
         } else {
